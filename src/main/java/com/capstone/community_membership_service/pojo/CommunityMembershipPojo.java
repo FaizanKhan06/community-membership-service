@@ -12,13 +12,5 @@ public class CommunityMembershipPojo {
     private int communityId;
     private String username;
     private double amount;
-    private boolean isLoanDefaulter;
-
-    public boolean isLoanDefaulter() {
-        return isLoanDefaulter;
-    }
-
-    public void setLoanDefaulter(boolean loanDefaulter) {
-        isLoanDefaulter = loanDefaulter;
-    }
+    private boolean isLoanDefaulter;    
 }
