@@ -24,19 +24,4 @@ public class CommunityMembershipEntity {
     @Column(name="is_loan_defaulter")
     private boolean isLoanDefaulter;
 
-    public boolean isLoanDefaulter() {
-        return isLoanDefaulter;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public void setIsLoanDefaulter(boolean loanDefaulter) {
-        isLoanDefaulter = loanDefaulter;
-    }
 }
