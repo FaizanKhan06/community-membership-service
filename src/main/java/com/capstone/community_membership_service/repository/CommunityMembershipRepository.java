@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+@EnableDiscoveryClient
 @Repository
 public interface CommunityMembershipRepository extends JpaRepository<CommunityMembershipEntity,Integer> {
     List<CommunityMembershipEntity> findByCommunityId(int communityId);
