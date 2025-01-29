@@ -3,6 +3,7 @@ package com.capstone.community_membership_service.service;
 import com.capstone.community_membership_service.entity.CommunityMembershipEntity;
 import com.capstone.community_membership_service.pojo.CommunityMembershipAddPojo;
 import com.capstone.community_membership_service.pojo.CommunityMembershipPojo;
+import com.capstone.community_membership_service.pojo.CommunityMembershipUpdateAmountPojo;
 import com.capstone.community_membership_service.pojo.CommunityMembershipWithUserDetailsPojo;
 import com.capstone.community_membership_service.pojo.CommunityPojo;
 import com.capstone.community_membership_service.pojo.UserOutputDataPojo;
@@ -34,7 +35,7 @@ public class CommunityMembershipService {
         if (exists.size() <= 0) {
 
             CommunityMembershipEntity communityMembershipEntity = new CommunityMembershipEntity(0,
-                    newMembership.getCommunityId(), newMembership.getEmail(), 0, false, false);
+                    newMembership.getCommunityId(), newMembership.getEmail(), 0, false, false, false);
 
             CommunityMembershipEntity savedEntity = communityMembershipRepository.save(communityMembershipEntity);
             return convertEntityToPojo(savedEntity);
@@ -107,6 +108,20 @@ public class CommunityMembershipService {
             pojos.add(convertEntityToPojo(entity));
         }
         return pojos;
+    }
+
+    public CommunityMembershipPojo updateAmountCommunityMembership(
+            CommunityMembershipUpdateAmountPojo updateCommunityMembership) {
+        List<CommunityMembershipEntity> entities = communityMembershipRepository.findByCommunityIdAndEmail(
+                updateCommunityMembership.getCommunityId(), updateCommunityMembership.getEmail());
+        if (entities.size() == 1) {
+            CommunityMembershipEntity entity = entities.get(0);
+            entity.setAmount(
+                    entity.getAmount() + updateCommunityMembership.getAmount());
+            communityMembershipRepository.save(entity);
+            return convertEntityToPojo(entity);
+        }
+        return null;
     }
 
     // Get membership details by ID

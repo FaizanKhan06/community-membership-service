@@ -2,6 +2,7 @@ package com.capstone.community_membership_service.controller;
 
 import com.capstone.community_membership_service.pojo.CommunityMembershipAddPojo;
 import com.capstone.community_membership_service.pojo.CommunityMembershipPojo;
+import com.capstone.community_membership_service.pojo.CommunityMembershipUpdateAmountPojo;
 import com.capstone.community_membership_service.pojo.CommunityMembershipWithUserDetailsPojo;
 import com.capstone.community_membership_service.service.CommunityMembershipService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,17 @@ public class CommunityMembershipController {
     public ResponseEntity<CommunityMembershipPojo> getMembershipById(@PathVariable int membershipId) {
         CommunityMembershipPojo membership = communityMembershipService.getMembershipById(membershipId);
         return ResponseEntity.ok(membership);
+    }
+
+    @PutMapping("/amount")
+    public ResponseEntity<CommunityMembershipPojo> updateAmountCommunityMembership(
+            @RequestBody CommunityMembershipUpdateAmountPojo communityMembershipUpdateDetails) {
+        try {
+            communityMembershipService.updateAmountCommunityMembership(communityMembershipUpdateDetails);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{membershipId}")

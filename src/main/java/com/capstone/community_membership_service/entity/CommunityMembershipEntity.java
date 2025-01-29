@@ -23,6 +23,8 @@ public class CommunityMembershipEntity {
     private double amount;
     @Column(name = "is_accepted")
     private boolean isAccepted;
+    @Column(name = "is_loan_taken")
+    private boolean isLoanTaken;
     @Column(name = "is_loan_defaulter")
     private boolean isLoanDefaulter;
 

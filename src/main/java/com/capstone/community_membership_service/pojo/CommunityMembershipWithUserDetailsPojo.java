@@ -13,5 +13,6 @@ public class CommunityMembershipWithUserDetailsPojo {
     private UserOutputDataPojo user;
     private double amount;
     private boolean isAccepted;
+    private boolean isLoanTaken;
     private boolean isLoanDefaulter;
 }

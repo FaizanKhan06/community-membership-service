@@ -14,5 +14,6 @@ public class CommunityMembershipPojo {
     private double amount;
     private boolean isAccepted;
     private int remainingTermPeriod;
+    private boolean isLoanTaken;
     private boolean isLoanDefaulter;
 }
