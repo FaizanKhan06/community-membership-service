@@ -110,6 +110,19 @@ public class CommunityMembershipService {
         return pojos;
     }
 
+    public CommunityMembershipPojo updateLoanTakenCommunityMembership(
+            CommunityMembershipUpdateAmountPojo updateCommunityMembership) {
+        List<CommunityMembershipEntity> entities = communityMembershipRepository.findByCommunityIdAndEmail(
+                updateCommunityMembership.getCommunityId(), updateCommunityMembership.getEmail());
+        if (entities.size() == 1) {
+            CommunityMembershipEntity entity = entities.get(0);
+            entity.setLoanTaken(true);
+            communityMembershipRepository.save(entity);
+            return convertEntityToPojo(entity);
+        }
+        return null;
+    } 
+
     public CommunityMembershipPojo updateAmountCommunityMembership(
             CommunityMembershipUpdateAmountPojo updateCommunityMembership) {
         List<CommunityMembershipEntity> entities = communityMembershipRepository.findByCommunityIdAndEmail(
@@ -117,7 +130,12 @@ public class CommunityMembershipService {
         if (entities.size() == 1) {
             CommunityMembershipEntity entity = entities.get(0);
             entity.setAmount(
-                    entity.getAmount() + updateCommunityMembership.getAmount());
+                Math.round((entity.getAmount() + updateCommunityMembership.getAmount()) * 100.0) / 100.0
+            );            
+            if(entity.getAmount() >= 0){
+                entity.setLoanTaken(false);
+                entity.setLoanDefaulter(false);
+            }
             communityMembershipRepository.save(entity);
             return convertEntityToPojo(entity);
         }
@@ -136,6 +154,14 @@ public class CommunityMembershipService {
                 .orElse(null);
         if (entity != null) {
             communityMembershipRepository.deleteById(communityMembershipId);
+        }
+    }
+
+    public void setLoanDefaulter(int membershipId, boolean loanDefaulter){
+        CommunityMembershipEntity communityMembershipEntity = communityMembershipRepository.findById(membershipId).orElse(null);
+        if(communityMembershipEntity != null){
+            communityMembershipEntity.setLoanDefaulter(loanDefaulter);
+            communityMembershipEntity = communityMembershipRepository.save(communityMembershipEntity);
         }
     }
 

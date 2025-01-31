@@ -53,7 +53,7 @@ public class CommunityMembershipController {
         return ResponseEntity.ok(memberships);
     }
 
-    @GetMapping("/community/user")
+    @PutMapping("/community/user")
     public ResponseEntity<List<CommunityMembershipPojo>> getMembershipsByCommunityIdEmail(
             @RequestBody CommunityMembershipAddPojo details) {
         List<CommunityMembershipPojo> memberships = communityMembershipService
@@ -77,6 +77,29 @@ public class CommunityMembershipController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/setLoanTaken")
+    public ResponseEntity<CommunityMembershipPojo> updateLoanTakenCommunityMembership(
+            @RequestBody CommunityMembershipUpdateAmountPojo communityMembershipUpdateDetails) {
+        try {
+            communityMembershipService.updateLoanTakenCommunityMembership(communityMembershipUpdateDetails);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @PutMapping("/markLoanDefaulter/{membershipId}")
+    public ResponseEntity<Void> markLoanDefaulter(@PathVariable int membershipId) {
+        communityMembershipService.setLoanDefaulter(membershipId, true);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/removeLoanDefaulter/{membershipId}")
+    public ResponseEntity<Void> removeLoanDefaulter(@PathVariable int membershipId) {
+        communityMembershipService.setLoanDefaulter(membershipId, false);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{membershipId}")
